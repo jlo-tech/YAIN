@@ -1,0 +1,33 @@
+/*
+ * Grammar
+ */
+
+WS = _{ WHITE_SPACE | NEWLINE }
+
+id = {
+	(ASCII_ALPHA_UPPER)+
+}
+
+var = {
+	(ASCII_ALPHA_LOWER)+
+}
+
+cons = {
+	(ASCII_ALPHA_UPPER)+
+}
+
+agent = {
+	id ~ WS? ~ "(" ~ WS? ~ (var | agent | cons)? ~ ("," ~ WS? ~ (var | agent | cons))* ~ WS? ~ ")"
+}
+
+principal = {
+	(var | agent | cons) ~ WS? ~ "~" ~ WS? ~ (var | agent | cons)
+}
+
+equation = {
+	agent ~ WS? ~ "#" ~ WS? ~ agent ~ WS? ~ "=" ~ WS? ~ (var | principal | cons) ~ (WS? ~ "," ~ WS? ~ principal)*
+}
+
+program = {
+	(equation | WS)+ ~ principal
+}
